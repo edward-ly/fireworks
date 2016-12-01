@@ -2,6 +2,9 @@
 #include <GL/glu.h>
 #include <GL/glut.h>
 
+#include <stdio.h>
+
 int main(){
-	cout << "Hello World!" << endl;
+	printf("Hello world");
+	return 0;
 }

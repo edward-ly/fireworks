@@ -5,7 +5,8 @@
 # # 
 
 CC = g++
-CFLAGS = -framework OpenGL -framework GLUT
+#CFLAGS = -framework OpenGL -framework GLUT
+CFLAGS = -lm -lGL -lGLU -lglut
 
 ifeq ($(wildcard /etc/bccd-revision),)      # not the BCCD
   TARGETS =  firework 

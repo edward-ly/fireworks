@@ -1,75 +1,72 @@
-// OpenGL Libraries
-#include <GL/gl.h>
-#include <GL/glu.h>
-#include <GL/glut.h>
-#include <GL/glui.h>
+#include "firework.h"
 
-// C++ Libraries
-#include <stdio.h>
-#include <cmath>
+// Set our static (per class NOT per object!) variable values
+const GLfloat Firework::GRAVITY		= 0.05f;
+const GLfloat Firework::baselineYSpeed = -4.0f;
+const GLfloat Firework::maxYSpeed	  = -4.0f;
 
-struct GLintPoint {
-  int x, y;
-};
-
-// global variables
-const int WINDOW_WIDTH = 640, WINDOW_HEIGHT = 480;
-GLdouble windowLeft = 0.0, windowRight = 640.0, windowBottom = 0.0, windowTop = 480.0;
-
-void myInit() {
-	glClearColor(0.0, 0.0, 0.0, 0.0); // set black background color
-	glColor3f(1.0f, 1.0f, 1.0f); // set the drawing color
-	glPointSize(1.0); // a ‘dot’ is 1 by 1 pixels
-
-	// set the window
-	glMatrixMode(GL_PROJECTION);
-	glLoadIdentity();
-	gluOrtho2D(windowLeft, windowRight, windowBottom, windowTop);
+// Constructor implementation
+Firework::Firework()
+{
+	// We can re-initialize the same firework
+	// later on without having to destroy the object and recreate it!
+	hasExploded = false;
 }
 
-void RoamTimer(int arg) {
-	// update firework state
+void Firework::initialize(GLint mouse_x, GLint mouse_y)
+{
+	// Pick random x/y speeds for each particle making up the firework
+	// Note: Each particle in the firework must have the exact same values for the firework to rise as a single point!
+	float xSpeedVal = -2 + ((float)rand() / (float)RAND_MAX) * 4.0f;
+	float ySpeedVal = baselineYSpeed + ((float)rand() / (float)RAND_MAX) * maxYSpeed;
+	//cout << ySpeedVal << endl;
 
-	glutPostRedisplay(); // redraw display
-}
-
-void myDisplay() {
-	glClear(GL_COLOR_BUFFER_BIT); // clear the screen
-
-	// draw fireworks
-
-	glutSwapBuffers();
-
-	glutTimerFunc(33, RoamTimer, 0); // wait 33 ms before redrawing
-}
-
-void myMouse(int button, int state, int x, int y) {
-	if (button == GLUT_LEFT_BUTTON && state == GLUT_DOWN) {
-		static GLintPoint mouse;
-		mouse.x = x; // flip y coordinate
-		mouse.y = WINDOW_HEIGHT - y;
-
-		// create a new firework at mouse position
+	// Set initial x/y location and speeds for each particle in the firework
+	for (int i = 0; i < FIREWORK_PARTICLES; i++)
+	{
+		x[i] = (float)mouse_x;
+		y[i] = (float)mouse_y;
+		xSpeed[i] = xSpeedVal;
+		ySpeed[i] = ySpeedVal;
 	}
 
-	glFlush();
+	// Assign a random colour and full alpha (i.e. particle is completely opaque)
+	red   = ((float)rand() / (float)RAND_MAX);
+	green = ((float)rand() / (float)RAND_MAX);
+	blue  = ((float)rand() / (float)RAND_MAX);
+	alpha = 1.0f;
+
+	// Size of the particle (as thrown to glPointSize) - range is 1.0f to 4.0f
+	particleSize = 1.0f + ((float)rand() / (float)RAND_MAX) * 3.0f;
+
+	// Start the explosion animation
+	hasExploded = true;
+	Firework::explode();
 }
 
-int main(int argc, char** argv) {
-	glutInit(&argc, argv); // initialize the Open-GL toolkit
-	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB); // set the display mode
-	glutInitWindowSize(WINDOW_WIDTH, WINDOW_HEIGHT); // set window size
-	glutInitWindowPosition(150, 100); // set window position
-	glutCreateWindow("Fireworks"); // open the screen window
+// Function to make a firework explode
+void Firework::explode()
+{
+	for (int i = 0; i < FIREWORK_PARTICLES; i++)
+	{
+		// Dampen the horizontal speed by 1% per frame
+		xSpeed[i] *= 0.99;
 
-	// register the callback functions
-	glutDisplayFunc(myDisplay);
-	// glutReshapeFunc(myReshape);
-	glutMouseFunc(myMouse);
-	// glutPassiveMotionFunc(myMovedMouse);
-	// glutKeyboardFunc(myKeyboard);
+		// Move the particle
+		x[i] += xSpeed[i];
+		y[i] += ySpeed[i];
 
-	myInit(); // additional initializations as necessary
-	glutMainLoop(); // go into a perpetual loop
-	return 0;
+		// Apply gravity to the particle's speed
+		ySpeed[i] += Firework::GRAVITY;
+	}
+
+	// Fade out the particles (alpha is stored per firework, not per particle)
+	if (alpha > 0.0f)
+	{
+		alpha -= 0.01f;
+	}
+	else // Once the alpha hits zero, stop animation and wait for re-initialization
+	{
+		hasExploded = false;
+	}
 }

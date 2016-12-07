@@ -23,11 +23,7 @@ class Firework
 		GLfloat particleSize;
 		GLboolean hasExploded;
 
-		static const GLfloat baselineYSpeed;
-		static const GLfloat maxYSpeed;
-
 		static const GLfloat GRAVITY;
-
 
 		// Object member functions
 		Firework(); // Constructor declaration

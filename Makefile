@@ -2,23 +2,23 @@
 #
 # # CC = gcc
 # # CFLAGS = -Wall -O0 -fopenmp
-# # 
+# #
 
 CC = g++
+CFLAGS = -Wall -ggdb
 #CFLAGS = -framework OpenGL -framework GLUT
-CFLAGS = -lm -lGL -lGLU -lglut
+LIBS = -lm -lGL -lGLU -lglut
 
 ifeq ($(wildcard /etc/bccd-revision),)      # not the BCCD
-  TARGETS =  firework 
+  TARGETS =  firework
   else                                        # the BCCD
- TARGETS =  firework 
+ TARGETS =  firework
 endif
 
 all: $(TARGETS)
 
 firework : firework.cpp
-	$(CC) $^ -o $@ $(CFLAGS) 
+	$(CC) $(CFLAGS) $^ -o $@ $(LIBS)
 
 clean :
-	rm -f  firework
-
+	rm -f firework

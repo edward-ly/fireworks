@@ -29,6 +29,7 @@ void myInit() {
     glDisable(GL_DEPTH_TEST);
     glEnable(GL_BLEND);
  	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    glClearAccum(0.0f, 0.0f, 0.0f, 1.0f);
     glEnable(GL_POINT_SMOOTH); // Smooth the points so that they're circular and not square
 
 	// set the window
@@ -48,7 +49,14 @@ void timer(int arg) {
 }
 
 void myDisplay() {
+    glAccum(GL_RETURN, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT); // clear the screen
+
+    glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();
+
+	// Displacement trick for exact pixelisation
+	glTranslatef(0.375, 0.375, 0);
 
 	// draw the fireworks
     for (int loop = 0; loop < MAX_FIREWORKS; loop++)
@@ -65,6 +73,7 @@ void myDisplay() {
         glEnd();
 	}
 
+    glAccum(GL_ACCUM, 0.99f);
 	glutSwapBuffers();
 
 	glutTimerFunc(1, timer, 0); // wait at least 1 ms before redrawing

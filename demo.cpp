@@ -8,6 +8,9 @@
 #include <stdio.h>
 #include <cmath>
 
+// Custom libraries
+#include "firework.h"
+
 struct GLintPoint {
   int x, y;
 };
@@ -16,8 +19,8 @@ struct GLintPoint {
 const int WINDOW_WIDTH = 640, WINDOW_HEIGHT = 480, MAX_FIREWORKS = 15;
 GLdouble windowLeft = 0.0, windowRight = 640.0, windowBottom = 0.0, windowTop = 480.0;
 
-// Firework fireworks[MAX_FIREWORKS];
-int last = -1;
+Firework fireworks[MAX_FIREWORKS];
+int last = 0;
 
 void myInit() {
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f); // set black background color
@@ -35,8 +38,11 @@ void myInit() {
 	gluOrtho2D(windowLeft, windowRight, windowBottom, windowTop);
 }
 
-void RoamTimer(int arg) {
+void timer(int arg) {
 	// update firework state
+    for (int i = 0; i < MAX_FIREWORKS; i++) {
+        fireworks[i].explode();
+    }
 
 	glutPostRedisplay(); // redraw display
 }
@@ -44,11 +50,24 @@ void RoamTimer(int arg) {
 void myDisplay() {
 	glClear(GL_COLOR_BUFFER_BIT); // clear the screen
 
-	// draw fireworks
+	// draw the fireworks
+    for (int loop = 0; loop < MAX_FIREWORKS; loop++)
+	{
+        // Set the point size of the firework particles (this needs to be called BEFORE opening the glBegin(GL_POINTS) section!)
+        glPointSize(fireworks[loop].particleSize);
+        glColor4f(fireworks[loop].red, fireworks[loop].green, fireworks[loop].blue, fireworks[loop].alpha);
+
+        glBegin(GL_POINTS);
+        for (int particleLoop = 0; particleLoop < FIREWORK_PARTICLES; particleLoop++)
+		{
+			glVertex2f(fireworks[loop].x[particleLoop], fireworks[loop].y[particleLoop]);
+		}
+        glEnd();
+	}
 
 	glutSwapBuffers();
 
-	glutTimerFunc(33, RoamTimer, 0); // wait 33 ms before redrawing
+	glutTimerFunc(1, timer, 0); // wait at least 1 ms before redrawing
 }
 
 void myMouse(int button, int state, int x, int y) {
@@ -58,9 +77,11 @@ void myMouse(int button, int state, int x, int y) {
 		mouse.y = WINDOW_HEIGHT - y;
 
 		// initialize firework at mouse position
+        if (!fireworks[last].hasExploded) {
+            fireworks[last].initialize(mouse.x, mouse.y);
+            last = (last + 1) % MAX_FIREWORKS;
+        }
 	}
-
-	glFlush();
 }
 
 int main(int argc, char** argv) {

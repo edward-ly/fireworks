@@ -18,8 +18,8 @@ void Firework::initialize(GLint mouse_x, GLint mouse_y)
 	{
 		x[i] = (float)mouse_x;
 		y[i] = (float)mouse_y;
-		xSpeed[i] = -4 + (rand() / (float)RAND_MAX) * 8;
-		ySpeed[i] = -4 + (rand() / (float)RAND_MAX) * 8;
+		xSpeed[i] = (rand() / (float)RAND_MAX) * 8 - (rand() / (float)RAND_MAX) * 6; //-4 + (rand() / (float)RAND_MAX) * 8;
+		ySpeed[i] = (rand() / (float)RAND_MAX) * 8 - (rand() / (float)RAND_MAX) * 6; //-4 + (rand() / (float)RAND_MAX) * 8;
 	}
 
 	// Assign a random colour and full alpha (i.e. particle is completely opaque)

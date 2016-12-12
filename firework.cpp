@@ -11,7 +11,7 @@ Firework::Firework()
 	hasExploded = false;
 }
 
-void Firework::initialize(GLint mouse_x, GLint mouse_y)
+void Firework::initialize(GLint mouse_x, GLint mouse_y, GLfloat size, GLfloat r, GLfloat g, GLfloat b)
 {
 	// Set initial x/y location and random speeds for each particle in the firework
 	for (int i = 0; i < FIREWORK_PARTICLES; i++)
@@ -22,14 +22,27 @@ void Firework::initialize(GLint mouse_x, GLint mouse_y)
 		ySpeed[i] = (rand() / (float)RAND_MAX) * 8 - (rand() / (float)RAND_MAX) * 6; //-4 + (rand() / (float)RAND_MAX) * 8;
 	}
 
-	// Assign a random colour and full alpha (i.e. particle is completely opaque)
-	red   = ((float)rand() / (float)RAND_MAX);
-	green = ((float)rand() / (float)RAND_MAX);
-	blue  = ((float)rand() / (float)RAND_MAX);
+	// Assign color GLfloat and full alpha (i.e. particle is completely opaque)
+	if ((red >= 0.0) && (red <= 1.0))
+		red = r;
+	else red   = ((float)rand() / (float)RAND_MAX);
+	if ((green >= 0.0) && (green <= 1.0))
+		green = g;
+	else green = ((float)rand() / (float)RAND_MAX);
+	if ((blue >= 0.0) && (blue <= 1.0))
+		blue = b;
+	else blue  = ((float)rand() / (float)RAND_MAX);
+
 	alpha = 1.0f;
 
 	// Size of the particle (as thrown to glPointSize) - range is 1.0f to 4.0f
-	particleSize = 1.0f + ((float)rand() / (float)RAND_MAX) * 3.0f;
+	if (size > 0) {
+		particleSize = size;
+	} else {
+		particleSize = 1.0f + ((float)rand() / (float)RAND_MAX) * 3.0f;
+	}
+
+
 
 	// Start the explosion animation
 	hasExploded = true;

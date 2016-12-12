@@ -19,6 +19,9 @@
 #define RANDOM 5
 
 GLfloat size = -1;
+GLfloat red;
+GLfloat green;
+GLfloat blue;
 
 struct GLintPoint {
   int x, y;
@@ -107,13 +110,29 @@ void myMouse(int button, int state, int x, int y) {
 	}
 }
 
-void processMenuEvents(int option) {
+void processSizeMenuEvents(int option) {
   switch(option) {
     case TINY: size = 1; break;
     case SMALL: size = 3; break;
     case MEDIUM: size = 4; break;
     case LARGE: size = 5; break;
     case RANDOM: size = -1; break;
+  }
+}
+
+void processColorMenuEvents(int option) {
+  switch(option) {
+    case 0: 
+      red = 1;
+      green = 0;
+      blue = 0.2;
+      break;
+  }
+}
+
+void processMenuEvents(int option){
+  switch(option) {
+    case 0: exit(0);
   }
 }
 
@@ -131,13 +150,27 @@ int main(int argc, char** argv) {
 	// glutPassiveMotionFunc(myMovedMouse);
 	// glutKeyboardFunc(myKeyboard);
   //Menu Processing
-  glutCreateMenu(processMenuEvents);
+
+  int sizeMenuId = glutCreateMenu(processSizeMenuEvents);
   glutAddMenuEntry("Tiny",TINY);
   glutAddMenuEntry("Small",SMALL);
   glutAddMenuEntry("Medium",MEDIUM);
   glutAddMenuEntry("Large",LARGE);
   glutAddMenuEntry("Random",RANDOM);
+
+  int colorMenuId = glutCreateMenu(processColorMenuEvents);
+  glutAddMenuEntry("Red",0);
+  glutAddMenuEntry("Green",1);
+  glutAddMenuEntry("Blue",2);
+  glutAddMenuEntry("Random",3);
+
+
+
+  glutCreateMenu(processMenuEvents);
+  glutAddSubMenu("Size",sizeMenuId);
+  glutAddMenuEntry("Quit",0);
   glutAttachMenu(GLUT_RIGHT_BUTTON);
+
 
 	myInit(); // additional initializations as necessary
 	glutMainLoop(); // go into a perpetual loop

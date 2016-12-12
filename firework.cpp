@@ -23,13 +23,13 @@ void Firework::initialize(GLint mouse_x, GLint mouse_y, GLfloat size, GLfloat r,
 	}
 
 	// Assign color GLfloat and full alpha (i.e. particle is completely opaque)
-	if (red >= 0.0)
+	if ((red >= 0.0) && (red <= 1.0))
 		red = r;
 	else red   = ((float)rand() / (float)RAND_MAX);
-	if (green >= 0.0)
+	if ((green >= 0.0) && (green <= 1.0))
 		green = g;
 	else green = ((float)rand() / (float)RAND_MAX);
-	if (blue >= 0.0)
+	if ((blue >= 0.0) && (blue <= 1.0))
 		blue = b;
 	else blue  = ((float)rand() / (float)RAND_MAX);
 

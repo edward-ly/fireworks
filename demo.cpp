@@ -52,15 +52,12 @@ void myInit() {
 }
 
 void draw_fireworks() {
-    for (int loop = 0; loop < MAX_FIREWORKS; loop++)
-    {
+    for (int loop = 0; loop < MAX_FIREWORKS; loop++) {
         glPointSize(fireworks[loop].particleSize);
         glColor4f(fireworks[loop].red, fireworks[loop].green, fireworks[loop].blue, fireworks[loop].alpha);
-        //glColor4f(red, green, blue, fireworks[loop].alpha);
 
         glBegin(GL_POINTS);
-        for (int particleLoop = 0; particleLoop < FIREWORK_PARTICLES; particleLoop++)
-        {
+        for (int particleLoop = 0; particleLoop < FIREWORK_PARTICLES; particleLoop++) {
             glVertex2f(fireworks[loop].x[particleLoop], fireworks[loop].y[particleLoop]);
         }
         glEnd();
@@ -140,14 +137,14 @@ void processColorMenuEvents(int option) {
             blue = 0.1;
             break;
         case 3: // Random
-            red = -1;
-            green = -1;
-            blue = -1;
+            red = -1.0;
+            green = -1.0;
+            blue = -1.0;
             break;
     }
 }
 
-void processMenuEvents(int option){
+void processMenuEvents(int option) {
     switch(option) {
         case 0: exit(0);
     }
@@ -169,22 +166,22 @@ int main(int argc, char** argv) {
     //Menu Processing
 
     int sizeMenuId = glutCreateMenu(processSizeMenuEvents);
-    glutAddMenuEntry("Tiny",TINY);
-    glutAddMenuEntry("Small",SMALL);
-    glutAddMenuEntry("Medium",MEDIUM);
-    glutAddMenuEntry("Large",LARGE);
-    glutAddMenuEntry("Random",RANDOM);
+    glutAddMenuEntry("Tiny", TINY);
+    glutAddMenuEntry("Small", SMALL);
+    glutAddMenuEntry("Medium", MEDIUM);
+    glutAddMenuEntry("Large", LARGE);
+    glutAddMenuEntry("Random", RANDOM);
 
     int colorMenuId = glutCreateMenu(processColorMenuEvents);
-    glutAddMenuEntry("Red",0);
-    glutAddMenuEntry("Green",1);
-    glutAddMenuEntry("Blue",2);
-    glutAddMenuEntry("Random",3);
+    glutAddMenuEntry("Red", 0);
+    glutAddMenuEntry("Green", 1);
+    glutAddMenuEntry("Blue", 2);
+    glutAddMenuEntry("Random", 3);
 
     glutCreateMenu(processMenuEvents);
-    glutAddSubMenu("Size",sizeMenuId);
-    glutAddSubMenu("Color",colorMenuId);
-    glutAddMenuEntry("Quit",0);
+    glutAddSubMenu("Size", sizeMenuId);
+    glutAddSubMenu("Color", colorMenuId);
+    glutAddMenuEntry("Quit", 0);
     glutAttachMenu(GLUT_RIGHT_BUTTON);
 
     myInit(); // additional initializations as necessary

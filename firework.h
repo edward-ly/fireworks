@@ -28,6 +28,7 @@ class Firework
 		// Object member functions
 		Firework(); // Constructor declaration
 		void initialize(GLint, GLint);
+		void colorSet(GLfloat, GLfloat, GLfloat);
 		void explode();
 };
 

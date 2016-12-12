@@ -2,7 +2,7 @@
 #include <GL/gl.h>
 #include <GL/glu.h>
 #include <GL/glut.h>
-#include <GL/glui.h>
+//#include <GL/glui.h>
 
 // C++ Libraries
 #include <stdio.h>
@@ -16,6 +16,7 @@
 #define BLUE 2
 #define GREEN 3
 #define PURPLE 4
+#define RANDOM 5
 
 struct GLintPoint {
   int x, y;
@@ -111,6 +112,7 @@ void processMenuEvents(int option) {
     case BLUE: break;
     case GREEN: break;
     case PURPLE: break;
+    case RANDOM: break;
   }
 }
 
@@ -133,6 +135,7 @@ int main(int argc, char** argv) {
   glutAddMenuEntry("Blue",BLUE);
   glutAddMenuEntry("Green",GREEN);
   glutAddMenuEntry("Purple",PURPLE);
+  glutAddMenuEntry("Random",RANDOM);
   glutAttachMenu(GLUT_RIGHT_BUTTON);
 
 	myInit(); // additional initializations as necessary

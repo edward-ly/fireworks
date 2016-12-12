@@ -19,16 +19,16 @@
 #define RANDOM 5
 
 GLfloat size = -1;
-GLfloat red;
-GLfloat green;
-GLfloat blue;
+GLfloat red = -1;
+GLfloat green = -1;
+GLfloat blue = -1;
 
 struct GLintPoint {
   int x, y;
 };
 
 // global variables
-const int WINDOW_WIDTH = 640, WINDOW_HEIGHT = 480, MAX_FIREWORKS = 10, MAX_FRAMES = 5;
+const int WINDOW_WIDTH = 640, WINDOW_HEIGHT = 480, MAX_FIREWORKS = 20, MAX_FRAMES = 5;
 GLdouble windowLeft = 0.0, windowRight = 640.0, windowBottom = 0.0, windowTop = 480.0;
 
 Firework fireworks[MAX_FIREWORKS];
@@ -56,6 +56,8 @@ void draw_fireworks() {
 	{
         glPointSize(fireworks[loop].particleSize);
         glColor4f(fireworks[loop].red, fireworks[loop].green, fireworks[loop].blue, fireworks[loop].alpha);
+        //glColor4f(red, green, blue, fireworks[loop].alpha);
+
         glBegin(GL_POINTS);
         for (int particleLoop = 0; particleLoop < FIREWORK_PARTICLES; particleLoop++)
 		{
@@ -104,7 +106,7 @@ void myMouse(int button, int state, int x, int y) {
 
 		// initialize firework at mouse position
         if (!fireworks[last].hasExploded) {
-            fireworks[last].initialize(mouse.x, mouse.y, size);
+            fireworks[last].initialize(mouse.x, mouse.y, size, red, green, blue);
             last = (last + 1) % MAX_FIREWORKS;
         }
 	}
@@ -122,10 +124,25 @@ void processSizeMenuEvents(int option) {
 
 void processColorMenuEvents(int option) {
   switch(option) {
-    case 0: 
-      red = 1;
-      green = 0;
-      blue = 0.2;
+    case 0: // Red
+      red = 0.1;
+      green = 0.9;
+      blue = 0.8;
+      break;
+    case 1: // Green
+      red = 0.1;
+      green = 1.0;
+      blue = 0.0;
+      break;
+    case 2: // Blue
+      red = 0.0;
+      green = 0.0;
+      blue = 1.0;
+      break;
+    case 3: // Random
+      red = -1;
+      green = -1;
+      blue = -1;
       break;
   }
 }
@@ -165,9 +182,9 @@ int main(int argc, char** argv) {
   glutAddMenuEntry("Random",3);
 
 
-
   glutCreateMenu(processMenuEvents);
   glutAddSubMenu("Size",sizeMenuId);
+  glutAddSubMenu("Color",colorMenuId);
   glutAddMenuEntry("Quit",0);
   glutAttachMenu(GLUT_RIGHT_BUTTON);
 

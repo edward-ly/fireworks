@@ -11,6 +11,12 @@
 // Custom libraries
 #include "firework.h"
 
+// Constants
+#define RED 1
+#define BLUE 2
+#define GREEN 3
+#define PURPLE 4
+
 struct GLintPoint {
   int x, y;
 };
@@ -99,6 +105,15 @@ void myMouse(int button, int state, int x, int y) {
 	}
 }
 
+void processMenuEvents(int option) {
+  switch(option) {
+    case RED: break;
+    case BLUE: break;
+    case GREEN: break;
+    case PURPLE: break;
+  }
+}
+
 int main(int argc, char** argv) {
 	glutInit(&argc, argv); // initialize the Open-GL toolkit
 	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_ACCUM); // set the display mode
@@ -112,6 +127,13 @@ int main(int argc, char** argv) {
 	glutMouseFunc(myMouse);
 	// glutPassiveMotionFunc(myMovedMouse);
 	// glutKeyboardFunc(myKeyboard);
+  //Menu Processing
+  glutCreateMenu(processMenuEvents);
+  glutAddMenuEntry("Red",RED);
+  glutAddMenuEntry("Blue",BLUE);
+  glutAddMenuEntry("Green",GREEN);
+  glutAddMenuEntry("Purple",PURPLE);
+  glutAttachMenu(GLUT_RIGHT_BUTTON);
 
 	myInit(); // additional initializations as necessary
 	glutMainLoop(); // go into a perpetual loop

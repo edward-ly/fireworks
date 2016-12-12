@@ -39,6 +39,12 @@ GLdouble windowLeft = 0.0, windowRight = 640.0, windowBottom = 0.0, windowTop = 
 Firework fireworks[MAX_FIREWORKS];
 int last = 0;
 
+void controls() {
+    fprintf(stderr, "Controls:\n");
+    fprintf(stderr, "Left click - create a firework at mouse position\n");
+    fprintf(stderr, "Right click - open menu to change firework settings\n");
+}
+
 void myInit() {
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f); // set black background color
     glColor3f(1.0f, 1.0f, 1.0f); // set the drawing color
@@ -54,6 +60,8 @@ void myInit() {
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
     gluOrtho2D(windowLeft, windowRight, windowBottom, windowTop);
+
+    controls();
 }
 
 void draw_fireworks() {

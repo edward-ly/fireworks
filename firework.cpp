@@ -11,7 +11,7 @@ Firework::Firework()
 	hasExploded = false;
 }
 
-void Firework::initialize(GLint mouse_x, GLint mouse_y)
+void Firework::initialize(GLint mouse_x, GLint mouse_y, GLfloat size)
 {
 	// Set initial x/y location and random speeds for each particle in the firework
 	for (int i = 0; i < FIREWORK_PARTICLES; i++)
@@ -31,7 +31,11 @@ void Firework::initialize(GLint mouse_x, GLint mouse_y)
 	alpha = 1.0f;
 
 	// Size of the particle (as thrown to glPointSize) - range is 1.0f to 4.0f
-	particleSize = 1.0f + ((float)rand() / (float)RAND_MAX) * 3.0f;
+	if (size > 0){
+		particleSize = size;
+	} else{
+		particleSize = 1.0f + ((float)rand() / (float)RAND_MAX) * 3.0f;
+	}
 
 
 

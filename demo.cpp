@@ -12,11 +12,13 @@
 #include "firework.h"
 
 // Constants
-#define RED 1
-#define BLUE 2
-#define GREEN 3
-#define PURPLE 4
+#define TINY 1
+#define SMALL 2
+#define MEDIUM 3
+#define LARGE 4
 #define RANDOM 5
+
+GLfloat size = -1;
 
 struct GLintPoint {
   int x, y;
@@ -51,7 +53,6 @@ void draw_fireworks() {
 	{
         glPointSize(fireworks[loop].particleSize);
         glColor4f(fireworks[loop].red, fireworks[loop].green, fireworks[loop].blue, fireworks[loop].alpha);
-
         glBegin(GL_POINTS);
         for (int particleLoop = 0; particleLoop < FIREWORK_PARTICLES; particleLoop++)
 		{
@@ -100,7 +101,7 @@ void myMouse(int button, int state, int x, int y) {
 
 		// initialize firework at mouse position
         if (!fireworks[last].hasExploded) {
-            fireworks[last].initialize(mouse.x, mouse.y);
+            fireworks[last].initialize(mouse.x, mouse.y, size);
             last = (last + 1) % MAX_FIREWORKS;
         }
 	}
@@ -108,11 +109,11 @@ void myMouse(int button, int state, int x, int y) {
 
 void processMenuEvents(int option) {
   switch(option) {
-    case RED: break;
-    case BLUE: break;
-    case GREEN: break;
-    case PURPLE: break;
-    case RANDOM: break;
+    case TINY: size = 1; break;
+    case SMALL: size = 3; break;
+    case MEDIUM: size = 4; break;
+    case LARGE: size = 5; break;
+    case RANDOM: size = -1; break;
   }
 }
 
@@ -131,10 +132,10 @@ int main(int argc, char** argv) {
 	// glutKeyboardFunc(myKeyboard);
   //Menu Processing
   glutCreateMenu(processMenuEvents);
-  glutAddMenuEntry("Red",RED);
-  glutAddMenuEntry("Blue",BLUE);
-  glutAddMenuEntry("Green",GREEN);
-  glutAddMenuEntry("Purple",PURPLE);
+  glutAddMenuEntry("Tiny",TINY);
+  glutAddMenuEntry("Small",SMALL);
+  glutAddMenuEntry("Medium",MEDIUM);
+  glutAddMenuEntry("Large",LARGE);
   glutAddMenuEntry("Random",RANDOM);
   glutAttachMenu(GLUT_RIGHT_BUTTON);
 

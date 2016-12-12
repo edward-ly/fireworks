@@ -127,17 +127,17 @@ void processColorMenuEvents(int option) {
     case 0: // Red
       red = 0.1;
       green = 0.9;
-      blue = 0.8;
+      blue = 0.9;
       break;
     case 1: // Green
-      red = 0.1;
-      green = 1.0;
-      blue = 0.0;
+      red = 0.8;
+      green = 0.1;
+      blue = 0.8;
       break;
     case 2: // Blue
-      red = 0.0;
-      green = 0.0;
-      blue = 1.0;
+      red = 0.8;
+      green = 0.8;
+      blue = 0.1;
       break;
     case 3: // Random
       red = -1;

@@ -1,13 +1,14 @@
 #include "firework.h"
 
 // Set our static (per class NOT per object!) variable values
-const GLfloat Firework::GRAVITY		   = 0.1f;
+const GLfloat Firework::GRAVITY = 0.1f;
 
 // Constructor implementation
 Firework::Firework()
 {
 	// We can re-initialize the same firework
 	// later on without having to destroy the object and recreate it!
+	red = green = blue = particleSize = -1;
 	hasExploded = false;
 }
 

@@ -1,3 +1,8 @@
+// File: demo.cpp
+// Group Members: Craig Earley, Johnathan Hicks, Edward Ly, Eli Ramthun
+// Last Updated: 11 December 2016
+// Source code for "firework" executable
+
 // OpenGL Libraries
 #include <GL/gl.h>
 #include <GL/glu.h>
@@ -76,10 +81,9 @@ void timer(int arg) {
 void myDisplay() {
     glClear(GL_ACCUM_BUFFER_BIT); // clear the screen
 
+    // Displacement trick for exact pixelization
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
-
-    // Displacement trick for exact pixelisation
     glTranslatef(0.375, 0.375, 0);
 
     // draw the fireworks
@@ -163,8 +167,8 @@ int main(int argc, char** argv) {
     glutMouseFunc(myMouse);
     // glutPassiveMotionFunc(myMovedMouse);
     // glutKeyboardFunc(myKeyboard);
-    //Menu Processing
 
+    // Menu Processing
     int sizeMenuId = glutCreateMenu(processSizeMenuEvents);
     glutAddMenuEntry("Tiny", TINY);
     glutAddMenuEntry("Small", SMALL);

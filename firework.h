@@ -1,3 +1,8 @@
+// File: firework.h
+// Group Members: Craig Earley, Johnathan Hicks, Edward Ly, Eli Ramthun
+// Last Updated: 11 December 2016
+// Header file for "Firework" class
+
 #ifndef FIREWORK_H
 #define FIREWORK_H
 
@@ -6,8 +11,7 @@
 
 const GLint FIREWORK_PARTICLES = 70;
 
-class Firework
-{
+class Firework {
 	public:
 		// Object member properties
 		GLfloat x[FIREWORK_PARTICLES];
